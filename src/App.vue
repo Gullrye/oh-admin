@@ -5,4 +5,14 @@
   </div>
 </template>
 
+<script>
+import { onMounted } from 'vue'
+
+export default {
+  setup() {
+    onMounted(() => {})
+  }
+}
+</script>
+
 <style lang="less"></style>

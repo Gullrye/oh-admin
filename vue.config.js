@@ -11,5 +11,19 @@ module.exports = {
         resolvers: [ElementPlusResolver()]
       })
     ]
+  },
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: process.env.VUE_APP_BASE_URL,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
+  },
+  css: {
+    sourceMap: true
   }
 }
