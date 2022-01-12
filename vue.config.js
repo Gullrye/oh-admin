@@ -10,10 +10,6 @@ module.exports = {
       Components({
         resolvers: [ElementPlusResolver()]
       })
-      // require('unplugin-vue-components/webpack')({
-      //   /* options */
-      // }),
-      // require('unplugin-auto-import/webpack')({ /* options */ })
     ]
   }
 }
