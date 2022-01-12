@@ -1,29 +1,19 @@
 # vue3-js-admin
 
-## Project setup
+## 项目初始化及代码规范配置
 
-```
-yarn install
-```
+初始化：Vue3 + Vuex + Router + Less + Prettier + Eslint
 
-### Compiles and hot-reloads for development
+代码格式、提交规范：EditorConfig 为不同编辑器维护一致的代码风格，Prettier + Eslint + husky + commitizen 保证代码符合 eslint 规范 和 git commit 规范
 
-```
-yarn serve
-```
+## 组件库安装和工具封装
 
-### Compiles and minifies for production
+CSS reset: normalize.css 库
 
-```
-yarn build
-```
+Element Plus 按需导入
 
-### Lints and fixes files
+axios 库二次封装
 
-```
-yarn lint
-```
+localStorage 封装
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+不同环境配置不同接口，跨域问题设置接口代理
