@@ -20,7 +20,7 @@ const localCache = {
   },
   // 获取大对象内的 key
   getCache(key) {
-    return this.getStorage()[key] || {} // 记得给默认值 {}，不然 request.js 请求拦截处获取 token 会报错！！！
+    return this.getStorage()[key]
   },
   deleteCache(key) {
     let storage = this.getStorage()
