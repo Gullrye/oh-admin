@@ -102,7 +102,6 @@ axios.request({
     password: '123456'
   }
 })
-
 ```
 
 ### localStorage 二次封装
@@ -121,8 +120,35 @@ axios.request({
 
 在 `src/service/api/login.js` 中处理登录、获取用户信息、获取角色菜单树。
 
-## 登录页面搭建
+## 登录页面和后台布局搭建
 
-更新到 `Vue3.2`：`yarn add vue@3.2.26 vue-router@4.0.11 vuex@4.0.2`、`yarn add @vue/compiler-sfc -D`。
+1.更新到 `Vue3.2`：`yarn add vue@3.2.26 vue-router@4.0.11 vuex@4.0.2`、`yarn add @vue/compiler-sfc -D`；卸载 `Vuex`，安装 Pinia `yarn add pinia`。
 
-卸载 `Vuex`，安装 Pinia `yarn add pinia`。
+2.使用 `el-form` 和表单校验实现登录页面。见 `src/views/login`。
+
+3.后台布局，见 `src/views/main.main.vue`，使用的是 element plus 的布局容器。
+
+4.`el-dropdown` + `el-avatar` 实现 `nav-header` 右侧的用户头像及下拉菜单。
+
+`el-avatar` 头像使用本地图片示例：
+
+```html
+<el-avatar class="avatar" :src="require('@/assets/img/avatar.svg')"></el-avatar>
+```
+
+5.`pinia` 管理 user 信息：
+
+`src/store/user.js` 中，使用 `pinia` 存储用户登录时的 `token`、`id`，然后通过 `id` 查找对应的用户信息，再根据用户信息的 `role id` 查找对应的角色菜单树，得到 `menuList`。
+
+6.`element-plus@1.2.0` 的 `icon` 图标使用：
+
+安装 `yarn add @element-plus/icons-vue`；按需引入和注册组件如下：
+
+```js
+import { Monitor } from '@element-plus/icons-vue'
+export default {
+  components: {
+    Monitor
+  }
+}
+```
