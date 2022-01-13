@@ -13,6 +13,7 @@ module.exports = {
     ]
   },
   devServer: {
+    port: 3399,
     proxy: {
       '^/api': {
         target: process.env.VUE_APP_BASE_URL,

@@ -19,6 +19,9 @@ const gullRequest = new GullRequest({
       return config
     },
     requestHookCatch: err => {
+      console.log('sss')
+      // eslint-disable-next-line no-undef
+      ElMessage.error('请求错误')
       return err
     },
     responseHook: res => {

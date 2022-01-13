@@ -3,7 +3,6 @@
  * 创建请求类
  */
 import axios from 'axios'
-import { ElLoading } from 'element-plus'
 
 const DEFAULT_LOADING = true
 
@@ -35,6 +34,7 @@ class GullRequest {
       config => {
         // 是否显示加载动画
         if (this.showLoading) {
+          // eslint-disable-next-line no-undef
           this.loading = ElLoading.service({
             lock: true,
             text: 'Loading',
@@ -51,7 +51,15 @@ class GullRequest {
       res => {
         this.loading?.close()
         const data = res.data
-        if (data.returnCode === '-1001') {
+        if (res.code === 400) {
+          // eslint-disable-next-line no-undef
+          ElMessage({
+            message: res.message || 'Error',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
+        if (data?.returnCode === '-1001') {
           console.log('请求失败，错误信息')
         } else {
           return data

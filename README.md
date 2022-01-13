@@ -4,7 +4,7 @@
 
 ## 项目初始化及代码规范配置
 
-初始化：`Vue3 + Vuex + Router + Less + Prettier + Eslint`；
+初始化：`Vue3 + Vuex + Router + Less + Prettier + Eslint`；(后面将 `Vuex` 替换为了 `Pinia`)
 
 代码格式、提交规范：EditorConfig 为不同编辑器维护一致的代码风格，`Prettier + Eslint + husky + commitizen` 保证代码符合 eslint 规范 和 git commit 规范。
 
@@ -110,3 +110,19 @@ axios.request({
 见 `src/utils/cache.js`。
 
 将项目中所有数据存入一个大对象中。
+
+## api 请求
+
+一些接口的格式是相同的，为增删改查和获取列表，如下图所示：
+
+![api](images/2022-01-13-12-32-06.png)
+
+我们对这两部分进行统一处理。见 `src/service/api/system.js`；
+
+在 `src/service/api/login.js` 中处理登录、获取用户信息、获取角色菜单树。
+
+## 登录页面搭建
+
+更新到 `Vue3.2`：`yarn add vue@3.2.26 vue-router@4.0.11 vuex@4.0.2`、`yarn add @vue/compiler-sfc -D`。
+
+卸载 `Vuex`，安装 Pinia `yarn add pinia`。

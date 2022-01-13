@@ -1,8 +1,8 @@
-import { createStore } from 'vuex'
+/**
+ * 使用 pinia 来进行状态管理
+ */
+import { createPinia } from 'pinia'
 
-export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
-})
+const store = createPinia()
+
+export default store
