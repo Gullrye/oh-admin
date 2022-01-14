@@ -136,7 +136,7 @@ axios.request({
 <el-avatar class="avatar" :src="require('@/assets/img/avatar.svg')"></el-avatar>
 ```
 
-## 侧边折叠菜单栏
+## 侧边折叠菜单栏与路由-页面配置
 
 1.`pinia` 管理 user 信息：
 
@@ -164,3 +164,9 @@ export default {
 4.配置路由文件及对应的页面，见 `src/router` 及 `src/views/main` 两个目录。
 
 使用 `route.path` 来作为 `el-menu` 的 `default-active`，即当前激活菜单项。
+
+## el-form 和 el-table 制作信息列表页面
+
+`page-search` 和 `page-content` 组件。
+
+分页器。

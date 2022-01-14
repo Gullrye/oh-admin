@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-info">
     <el-dropdown size="large" trigger="click">
       <el-avatar
         class="avatar"
@@ -13,6 +13,7 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <span class="name">{{ name }}</span>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import { useUserStore } from '@/store/user'
 /* eslint-disable no-undef */
 export default {
   setup() {
+    const name = localCache.getCache('name')
     const userStore = useUserStore()
     const onLogout = () => {
       ElMessageBox.confirm('确认退出登录?', '提示', {
@@ -49,14 +51,24 @@ export default {
     }
 
     return {
-      onLogout
+      onLogout,
+      name
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.avatar {
-  cursor: pointer;
+.user-info {
+  display: flex;
+  align-items: center;
+  .avatar {
+    cursor: pointer;
+  }
+  .name {
+    margin-left: 5px;
+    font-size: 16px;
+    color: #fff;
+  }
 }
 </style>
