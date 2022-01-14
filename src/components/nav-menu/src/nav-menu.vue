@@ -1,13 +1,16 @@
 <template>
   <div class="nav-menu">
-    <p class="menu-title">后台管理系统</p>
+    <p class="menu-title">
+      <span v-if="!collapse" style="margin-left: -40px">OH-ADMIN</span>
+      <span v-else>OH</span>
+    </p>
     <el-menu
-      default-active="1"
+      :default-active="activeIndex"
       class="el-menu-vertical-demo"
       :collapse="collapse"
     >
       <template v-for="item in menuList" :key="item.id">
-        <el-sub-menu index="1">
+        <el-sub-menu :index="item.url">
           <template #title>
             <el-icon>
               <monitor v-if="item.icon === 'el-icon-monitor'" />
@@ -18,7 +21,12 @@
             <span>{{ item.name }}</span>
           </template>
           <template v-for="subItem in item.children" :key="subItem.id">
-            <el-menu-item index="1-4-1">{{ subItem.name }}</el-menu-item>
+            <el-menu-item
+              default-openeds="/main/system/user"
+              :index="subItem.url"
+              @click="onMenuSubItemClick(subItem)"
+              >{{ subItem.name }}</el-menu-item
+            >
           </template>
         </el-sub-menu>
       </template>
@@ -28,6 +36,7 @@
 
 <script>
 // import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user.js'
 import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
 export default {
@@ -45,12 +54,20 @@ export default {
   },
   setup() {
     const userStore = useUserStore()
-    userStore.getUserInfoAction()
-    userStore.getMenuListAction()
 
-    const menuList = userStore.menuList
+    const menuList = userStore.userMenus
+    const router = useRouter()
+    const route = useRoute()
+    const activeIndex = route.path
+
+    const onMenuSubItemClick = item => {
+      router.push(item.url)
+    }
+
     return {
-      menuList
+      menuList,
+      activeIndex,
+      onMenuSubItemClick
     }
   }
 }
@@ -63,5 +80,9 @@ export default {
   font-weight: bold;
   text-align: center;
   color: #7a88fe;
+  white-space: nowrap;
+}
+.el-menu.el-menu--collapse {
+  border: none;
 }
 </style>

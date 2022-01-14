@@ -10,33 +10,37 @@ import router from '@/router'
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
+      // token: '',
+      // userInfo: {},
+      // userMenus: []
       token: localCache.getCache('token') || '',
-      id: localCache.getCache('id') || '',
       userInfo: localCache.getCache('userInfo') || {},
-      menuList: localCache.getCache('menuList') || []
+      userMenus: localCache.getCache('userMenus') || []
     }
   },
 
   actions: {
     async loginAction(account) {
-      const { data } = await login(account)
-      localCache.setCache('token', data.token)
-      localCache.setCache('id', data.id)
-      this.token = data.token
-      this.id = data.id
+      // 登录
+      const loginResult = await login(account)
+      const { id, token } = loginResult.data
+      this.token = token
+      localCache.setCache('token', token)
+
+      // 用户信息
+      const userInfoResult = await requestUserInfoById(id)
+      const userInfo = userInfoResult.data
+      this.userInfo = userInfo
+      localCache.setCache('userInfo', userInfo)
+
+      // 用户菜单
+      const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
+      const userMenus = userMenusResult.data
+      this.userMenus = userMenus
+      localCache.setCache('userMenus', userMenus)
+
+      // 获取数据后，跳到主页
       router.push('/main')
-    },
-
-    async getUserInfoAction() {
-      const { data } = await requestUserInfoById(this.id)
-      this.userInfo = data
-      localCache.setCache('userInfo', data)
-    },
-
-    async getMenuListAction() {
-      const { data } = await requestUserMenusByRoleId(this.userInfo.role.id)
-      this.menuList = data
-      localCache.setCache('menuList', data)
     }
   }
 })

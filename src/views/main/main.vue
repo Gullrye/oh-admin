@@ -26,8 +26,8 @@ export default {
   setup() {
     const isCollapse = ref(false)
 
-    const handleFoldChange = () => {
-      console.log('fold change')
+    const handleFoldChange = isFold => {
+      isCollapse.value = isFold
     }
 
     return {

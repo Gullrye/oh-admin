@@ -136,13 +136,15 @@ axios.request({
 <el-avatar class="avatar" :src="require('@/assets/img/avatar.svg')"></el-avatar>
 ```
 
-5.`pinia` 管理 user 信息：
+## 侧边折叠菜单栏
 
-`src/store/user.js` 中，使用 `pinia` 存储用户登录时的 `token`、`id`，然后通过 `id` 查找对应的用户信息，再根据用户信息的 `role id` 查找对应的角色菜单树，得到 `menuList`。
+1.`pinia` 管理 user 信息：
 
-6.`element-plus@1.2.0` 的 `icon` 图标使用：
+登录页面点击登录按钮时，要实现登录、获取用户信息、获取角色菜单，这三个操作都放在同一个登录函数中，见 [./src/store/user.js](./src/store/user.js)：使用 `pinia` 存储用户登录时的 `token`，通过登录时获得的 `id` 查找对应的用户信息，再根据用户信息的 `role id` 查找对应的角色菜单树，得到 `userMenus`，最后跳转到首页。
 
-安装 `yarn add @element-plus/icons-vue`；按需引入和注册组件如下：
+2.`element-plus@1.2.0` 的 `icon` 图标使用：
+
+安装 `yarn add @element-plus/icons-vue`；按需引入和注册组件示例如下：
 
 ```js
 import { Monitor } from '@element-plus/icons-vue'
@@ -152,3 +154,13 @@ export default {
   }
 }
 ```
+
+3.点击折叠图标实现展开菜单栏
+
+`nav-header` 中设置 `isFold` 来控制图标是 `Fold` 还是 `Expand`，并通过 `setup(props, { emit })` 来触发 `foldChange` 事件，同时传参 `isFold.value`，并将 `isFold.value` 取反。父组件 `main.vue` 监听到 `foldChange` 事件后将 `isCollapse` 设置为传过来的 `isFold.value`。
+
+![collapse](images/2022-01-14-13-32-31.png)
+
+4.配置路由文件及对应的页面，见 `src/router` 及 `src/views/main` 两个目录。
+
+使用 `route.path` 来作为 `el-menu` 的 `default-active`，即当前激活菜单项。

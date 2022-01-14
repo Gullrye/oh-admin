@@ -1,5 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import localCache from '@/utils/cache.js'
+import systemRouter from './modules/system'
+import productRouter from './modules/product'
+import analysisRouter from './modules/analysis'
+import storyRouter from './modules/story'
 
 const routes = [
   {
@@ -9,11 +13,18 @@ const routes = [
   {
     path: '/main',
     name: 'main',
+    redirect: '/main/system/user',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/main/main.vue')
+      import(/* webpackChunkName: "about" */ '../views/main/main.vue'),
+    children: [].concat(
+      systemRouter,
+      productRouter,
+      analysisRouter,
+      storyRouter
+    )
   },
   {
     path: '/login',
