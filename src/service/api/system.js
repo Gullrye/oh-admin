@@ -21,7 +21,7 @@ export function deletePageData(url) {
 }
 // 创建
 export function createPageData(url, data) {
-  return gullRequest.delete({
+  return gullRequest.post({
     url,
     data
   })

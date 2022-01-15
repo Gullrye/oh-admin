@@ -167,6 +167,18 @@ export default {
 
 ## el-form 和 el-table 制作信息列表页面
 
-`page-search` 和 `page-content` 组件。
+1.`page-search` 和 `page-content` 组件。
 
-分页器。
+2.分页器
+
+> `watchEffect`：立即执行传入的一个函数，同时响应式追踪其依赖，并在其依赖变更时重新运行该函数。
+
+用 `watchEffect` 来传入 `pinia` 中获取表格数据的函数，使用 `v-model:pageSize="pageSize"` 和 `v-model:currentPage="currentPage"` 将页面表格行数量和当前页进行双向绑定，当他们发生改变时，`watchEffect` 中的函数重新运行，获取新数据，数据存在 `src/store/system.js`，即 `useSystemStore` 中。
+`offset` 为`offset: (currentPage.value - 1) * pageSize.value,`！
+使用 `computed` 来得到存储的最新表格数据。
+
+3.封装 `form` 组件，利于 `page-search` 和新建、编辑时的弹出框的共同使用。
+
+## 其他
+
+造了很多 bug，也改了很多 bug。完成搜索、重置、新建、删除功能。点击重置按钮后，重新进行搜索会有问题，将清空后的表单数据返回到父组件就行了。

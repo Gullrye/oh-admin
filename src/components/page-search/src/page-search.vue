@@ -1,52 +1,17 @@
 <template>
   <div class="page-search">
     <h1 class="search-title">高级检索</h1>
-    <el-form
-      :inline="true"
-      :model="formData"
-      class="demo-form-inline"
-      label-width="100px"
-    >
-      <el-row>
-        <template v-for="item in formItems" :key="item.label">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item :label="item.label">
-              <!-- 输入框 -->
-              <template v-if="item.type === 'input'">
-                <el-input
-                  v-model="formData[item.field]"
-                  :placeholder="item.placeholder"
-                ></el-input>
-              </template>
-              <!-- 选择器 -->
-              <template v-else-if="item.type === 'select'">
-                <el-select
-                  v-model="formData[item.field]"
-                  :placeholder="item.placeholder"
-                >
-                  <template v-for="option in item.options" :key="option.value">
-                    <el-option
-                      :label="option.title"
-                      :value="option.value"
-                    ></el-option>
-                  </template>
-                </el-select>
-              </template>
-              <!-- 日期选择器 -->
-              <template v-else-if="item.type === 'datepicker'">
-                <el-date-picker
-                  v-model="formData[item.field]"
-                  type="date"
-                  :placeholder="item.placeholder"
-                  v-bind="item.otherOptions"
-                  style="width: 100%"
-                ></el-date-picker>
-              </template>
-            </el-form-item>
-          </el-col>
-        </template>
-      </el-row>
-    </el-form>
+    <gull-form
+      :formItems="formItems"
+      :myFormData="formData"
+      :isReset="isReset"
+      @setIsResetFalse="
+        (val1, val2) => {
+          isReset = val1
+          formData = val2
+        }
+      "
+    />
     <div class="btn-wrapper">
       <el-button type="primary" @click="onSubmit">搜索</el-button>
       <el-button type="danger" @click="onReset">重置</el-button>
@@ -55,8 +20,14 @@
 </template>
 
 <script>
+import gullForm from '@/base-ui/form'
 import { ref } from 'vue'
+import { useSystemStore } from '@/store/system'
+import { getPageListData } from '@/service/api/system'
 export default {
+  components: {
+    gullForm
+  },
   props: {
     searchFormConfig: {
       require: true,
@@ -64,23 +35,38 @@ export default {
     }
   },
   setup(props) {
+    const systemStore = useSystemStore()
+    const onSubmit = async () => {
+      await getPageListData('/users/list', {
+        offset: 0,
+        size: 5,
+        ...formData.value
+      })
+      systemStore.getUserListAction({
+        offset: 0,
+        size: 5,
+        ...formData.value
+      })
+    }
+    const isReset = ref(false)
+    const onReset = () => {
+      isReset.value = true
+    }
+
     // 传入的配置项
     const formItems = ref(props.searchFormConfig.formItems)
     // el-input 等组件绑定的值
-    const formData = ref({})
+    const formOriginData = {}
     formItems.value.forEach(item => {
-      formData[item.field] = ''
+      formOriginData[item.field] = ''
     })
-
-    const onSubmit = () => {
-      console.log('submit!')
-    }
-    const onReset = () => {}
+    const formData = ref(formOriginData)
     return {
+      formData,
+      formItems,
       onSubmit,
       onReset,
-      formItems,
-      formData
+      isReset
     }
   }
 }

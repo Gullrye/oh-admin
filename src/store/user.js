@@ -6,6 +6,7 @@ import {
 } from '@/service/api/login.js'
 import localCache from '@/utils/cache.js'
 import router from '@/router'
+import { useSystemStore } from './system'
 
 export const useUserStore = defineStore('user', {
   state: () => {
@@ -38,6 +39,10 @@ export const useUserStore = defineStore('user', {
       const userMenus = userMenusResult.data
       this.userMenus = userMenus
       localCache.setCache('userMenus', userMenus)
+
+      const systemStore = useSystemStore()
+      systemStore.getDepartmentListAction()
+      systemStore.getRoleListAction()
 
       // 获取数据后，跳到主页
       router.push('/main')

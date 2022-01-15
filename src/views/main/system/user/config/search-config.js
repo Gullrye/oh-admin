@@ -21,8 +21,8 @@ export const searchFormConfig = {
     {
       field: 'cellphone',
       type: 'input',
-      label: '电话号码',
-      placeholder: '请输入电话号码'
+      label: '手机号码',
+      placeholder: '请输入手机号码'
     },
     {
       field: 'enable',
